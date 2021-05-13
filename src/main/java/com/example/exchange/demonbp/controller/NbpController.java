@@ -5,7 +5,6 @@ import com.example.exchange.demonbp.model.Mid;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
@@ -58,10 +57,16 @@ public class NbpController {
     }
 
     @GetMapping("golds")
-    public ResponseEntity<Gold> getGolds() {
+    public List<Gold> getGolds() {
         String url = "http://api.nbp.pl/api/cenyzlota/today";
         RestTemplate template = new RestTemplate();
-        return template.
+        return template.exchange(
+                url,
+                HttpMethod.GET,
+                null,
+                new ParameterizedTypeReference<List<Gold>>() {
+                }
+        ).getBody();
 
     }
 }
